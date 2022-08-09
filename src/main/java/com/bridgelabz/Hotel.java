@@ -5,6 +5,7 @@ public class Hotel {
     private int rating;
     private double regularCustomerRate;
     private double weekendRegularCustomerRate;
+
     /**
      * Default Constructor
      */
@@ -61,5 +62,4 @@ public class Hotel {
         return "Hotel [hotelName=" + hotelName + ", rating=" + rating + ", regularCustomerRate=" + regularCustomerRate
                 + ", weekendRegularCustomerRate=" + weekendRegularCustomerRate + "]";
     }
-
 }

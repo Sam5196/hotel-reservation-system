@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -26,6 +28,7 @@ public class HotelReservation {
      * hotel - Instance (object) of Hotel Class
      */
     Hotel hotel;
+
     public boolean addHotel() {
 
         System.out.println("Enter hotel name:");
@@ -46,7 +49,8 @@ public class HotelReservation {
     public void printHotelList() {
         System.out.println(hotelList);
     }
-    public String getCheapestHotel(LocalDate startDate, LocalDate endDate) {
+
+    public ArrayList<Hotel> getCheapestHotel(LocalDate startDate, LocalDate endDate) {
 
         int numberOfDays = (int) ChronoUnit.DAYS.between(startDate, endDate);
         int weekends = 0;
@@ -82,21 +86,31 @@ public class HotelReservation {
          * Calculating cheapest rate (weekdays*week days rate)+(weekends*weekend rates)
          */
         final double cheapestPrice = hotelList.stream()
-                .mapToDouble(hotel -> ((hotel.getWeekendRegularCustomerRate()*weekendsNumber) + hotel.getRegularCustomerRate()*weekdaysNumber))
-                .min()
-                .orElse(Double.MAX_VALUE);
+                .mapToDouble(hotel -> ((hotel.getWeekendRegularCustomerRate() * weekendsNumber)
+                        + hotel.getRegularCustomerRate() * weekdaysNumber))
+                .min().orElse(Double.MAX_VALUE);
         /**
          * Filtering and collecting hotel with cheapest rate
          */
         ArrayList<Hotel> cheapestHotel = hotelList.stream()
-                .filter(hotel -> (hotel.getWeekendRegularCustomerRate()*weekendsNumber + hotel.getRegularCustomerRate()*weekdaysNumber) == cheapestPrice)
+                .filter(hotel -> (hotel.getWeekendRegularCustomerRate() * weekendsNumber
+                        + hotel.getRegularCustomerRate() * weekdaysNumber) == cheapestPrice)
                 .collect(Collectors.toCollection(ArrayList::new));
 
         if (cheapestPrice != Double.MAX_VALUE) {
 
-            System.out.println("Cheapest Hotel : \n" + cheapestHotel.get(0).getHotelName() + ", Total Rates: " + cheapestPrice);
-            return cheapestHotel.get(0).getHotelName();
+            System.out.println(
+                    "Cheapest Hotel : \n" + cheapestHotel.get(0).getHotelName() + ", Total Rates: " + cheapestPrice);
+            return cheapestHotel;
         }
         return null;
+    }
+
+    public Hotel getCheapestBestRatedHotel(LocalDate startDate, LocalDate endDate) {
+
+        ArrayList<Hotel> cheapestHotels = getCheapestHotel(startDate, endDate);
+        Optional<Hotel> sortedHotelList = hotelList.stream().max(Comparator.comparing(Hotel::getRate));
+        System.out.println("Cheapest Best Rated Hotel : \n" + sortedHotelList.get().getHotelName());
+        return sortedHotelList.get();
     }
 }
