@@ -3,15 +3,10 @@ package com.bridgelabz;
 import java.time.LocalDate;
 import java.time.Month;
 
-/**
- * Class with Main method.
- *
- * @author Moinuddin
- *
- */
 public class HotelReservationMain {
     public static void main(String[] args) {
         System.out.println(" Welcome To Hotel Reservation System");
+
         HotelReservation hotelReservation = new HotelReservation();
         hotelReservation.addHotel();
         hotelReservation.addHotel();
