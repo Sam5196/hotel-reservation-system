@@ -1,10 +1,6 @@
 package com.bridgelabz;
 
 public class Hotel {
-    /**
-     * hotelName - Name of the hotel. rating - Rating of Hotel. regularCustomerRate
-     * - Rate for regular customers.
-     */
     private String hotelName;
     private int rating;
     private double regularCustomerRate;

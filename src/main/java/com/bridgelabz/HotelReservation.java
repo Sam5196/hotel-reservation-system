@@ -1,14 +1,11 @@
 package com.bridgelabz;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Optional;
 import java.util.Scanner;
 
-/**
- * This class contains method to add hotel into hotel ArrayList
- *
- * @author Moinuddin
- *
- */
 public class HotelReservation {
     /**
      * hotelName - Name of the hotel. rating - Rating of Hotel. regularCustomerRate
@@ -26,14 +23,6 @@ public class HotelReservation {
      * hotel - Instance (object) of Hotel Class
      */
     Hotel hotel;
-
-    /**
-     * Method to add new hotel to hotel list First Taking user input for Hotel Name,
-     * Rating and Regular Customer Rate. Than providing all the inputs to hotel
-     * object Calling inbuilt add method for array list to add new hotel to the
-     * hotelList. return - boolean value for addition of new Hotel to the ArrayList
-     * hotelList
-     */
     public boolean addHotel() {
 
         System.out.println("Enter hotel name:");
@@ -52,5 +41,10 @@ public class HotelReservation {
     public void printHotelList() {
         System.out.println(hotelList);
     }
+    public Hotel getCheapestHotel(LocalDate startDate, LocalDate endDate) {
 
+
+        Optional<Hotel> sortedHotelList = hotelList.stream().min(Comparator.comparing(Hotel::getRegularCustomerRate));
+        return sortedHotelList.get();
+    }
 }
